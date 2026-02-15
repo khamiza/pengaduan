@@ -70,72 +70,146 @@
     @yield('content')
   </main>
   
-  <!-- MODAL LOGIN SEDERHANA DAN INFORMATIF -->
-  <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content rounded-3 shadow">
+<!-- MODAL LOGIN MODERN -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4">
 
-        <form action="{{ route('login') }}" method="POST">
-          @csrf
+      <form action="{{ route('login') }}" method="POST">
+        @csrf
 
-          <!-- HEADER -->
-          <div class="modal-header bg-primary text-white">
-            <h5 class="modal-title">
-              <i class="bi bi-box-arrow-in-right"></i> Login
-            </h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        <!-- HEADER -->
+        <div class="modal-header text-white rounded-top-4"
+             style="background: linear-gradient(135deg, #4e73df, #6f42c1);">
+
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-person-circle me-2"></i>Login Sistem
+          </h5>
+
+          <button type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal">
+          </button>
+        </div>
+
+        <!-- BODY -->
+        <div class="modal-body px-4 py-4">
+
+          <!-- error -->
+          @if ($errors->any())
+          <div class="alert alert-danger small rounded-3">
+            <i class="bi bi-exclamation-circle"></i>
+            {{ $errors->first() }}
           </div>
+          @endif
 
-          <!-- BODY -->
-          <div class="modal-body">
+          <!-- Username -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">
+              <i class="bi bi-person"></i> Username / NISN
+            </label>
 
-            {{-- error login --}}
-            @if ($errors->any())
-              <div class="alert alert-danger small">
-                {{ $errors->first() }}
-              </div>
-            @endif
+            <div class="input-group">
+              <span class="input-group-text bg-light">
+                <i class="bi bi-person-fill text-primary"></i>
+              </span>
 
-            <!-- Username -->
-            <div class="mb-3">
-              <label class="form-label">Username / NISN</label>
-              <input type="text" name="username" class="form-control" placeholder="Masukkan username/NISN" required>
-              <small class="text-muted d-block mt-1">
-                Username bisa berupa NISN siswa, atau username admin / kepsek
-              </small>
+              <input type="text"
+                     name="username"
+                     class="form-control"
+                     placeholder="Masukkan username / NISN"
+                     required>
             </div>
 
-            <!-- Password -->
-            <div class="mb-3">
-              <label class="form-label">Password</label>
-              <input type="password" name="password" class="form-control" placeholder="Masukkan password" required>
+            <small class="text-muted">
+              Gunakan NISN untuk siswa, atau username admin/kepsek
+            </small>
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">
+              <i class="bi bi-lock"></i> Password
+            </label>
+
+            <div class="input-group">
+
+              <span class="input-group-text bg-light">
+                <i class="bi bi-lock-fill text-primary"></i>
+              </span>
+
+              <input type="password"
+                     name="password"
+                     id="password"
+                     class="form-control"
+                     placeholder="Masukkan password"
+                     required>
+
+              <!-- tombol show -->
+              <button type="button"
+                      class="btn btn-light border"
+                      onclick="togglePassword()">
+                <i class="bi bi-eye" id="iconPassword"></i>
+              </button>
+
             </div>
-
           </div>
 
-          <!-- FOOTER -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-              Batal
-            </button>
-            <button type="submit" class="btn btn-primary">
-              <i class="bi bi-box-arrow-in-right"></i> Login
-            </button>
-          </div>
+        </div>
 
-        </form>
+        <!-- FOOTER -->
+        <div class="modal-footer border-0 px-4 pb-4">
 
-      </div>
+          <button type="button"
+                  class="btn btn-light border rounded-3"
+                  data-bs-dismiss="modal">
+            Batal
+          </button>
+
+          <button type="submit"
+                  class="btn text-white rounded-3 px-4"
+                  style="background: linear-gradient(135deg, #4e73df, #6f42c1);">
+            <i class="bi bi-box-arrow-in-right me-1"></i>Login
+          </button>
+
+        </div>
+
+      </form>
+
     </div>
   </div>
-  @if(session('error'))
-  <script>
-  document.addEventListener("DOMContentLoaded", function() {
-      var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-      loginModal.show();
-  });
-  </script>
-  @endif
+</div>
+
+<!-- script show hide password -->
+<script>
+function togglePassword()
+{
+    var password = document.getElementById("password");
+    var icon = document.getElementById("iconPassword");
+
+    if(password.type === "password")
+    {
+        password.type = "text";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+    }
+    else
+    {
+        password.type = "password";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+    }
+}
+</script>
+
+@if(session('error'))
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+    loginModal.show();
+});
+</script>
+@endif
 
 
   <!-- ======= FOOTER ======= -->
